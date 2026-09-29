@@ -1,0 +1,6 @@
+@Parcial1_P4_Wilmert_HostAddress = http://localhost:5260
+
+GET {{Parcial1_P4_Wilmert_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

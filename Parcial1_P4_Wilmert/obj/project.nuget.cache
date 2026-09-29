@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "wA/Hr9dB9YQ=",
+  "success": true,
+  "projectFilePath": "C:\\PROGRAMACION 4\\Parcial\\Parcial1_P4_Wilmert\\Parcial1_P4_Wilmert.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wilme\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.12\\microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "C:\\Users\\wilme\\.nuget\\packages\\microsoft.openapi\\2.12.0\\microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}
