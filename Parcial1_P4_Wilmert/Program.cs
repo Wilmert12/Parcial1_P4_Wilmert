@@ -1,23 +1,30 @@
+using Parcial1_P4_Wilmert.Services;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();          // Genera el documento OpenAPI
+
+// Registro del servicio de acceso a datos
+builder.Services.AddScoped<NumbersService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Crear la tabla al iniciar la aplicación
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var numbersService = scope.ServiceProvider.GetRequiredService<NumbersService>();
+    await numbersService.InitializeAsync();
+}
+
+{
+    app.MapOpenApi();                   // /openapi/v1.json
+    app.MapScalarApiReference();        // /scalar/v1
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
