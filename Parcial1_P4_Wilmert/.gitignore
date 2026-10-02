@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+#Ocultar la base de datos de la aplicación
+*.db
+
 # User-specific files
 *.rsuser
 *.suo
