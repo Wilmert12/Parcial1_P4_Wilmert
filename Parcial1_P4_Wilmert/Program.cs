@@ -4,12 +4,11 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();          
+builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<NumbersService>();
 
 var app = builder.Build();
-
 
 using (var scope = app.Services.CreateScope())
 {
@@ -17,10 +16,8 @@ using (var scope = app.Services.CreateScope())
     await numbersService.InitializeAsync();
 }
 
-{
-    app.MapOpenApi();                 
-    app.MapScalarApiReference();       
-}
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

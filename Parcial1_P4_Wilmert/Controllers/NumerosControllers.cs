@@ -4,6 +4,9 @@ using Parcial1_P4_Wilmert.Services;
 
 namespace Parcial1_P4_Wilmert.Controllers;
 
+
+
+
 [ApiController]
 [Route("api/[controller]")]
 public class NumerosController : ControllerBase

@@ -4,20 +4,15 @@ using Parcial1_P4_Wilmert.Models;
 
 namespace Parcial1_P4_Wilmert.Services;
 
-public class NumbersService
+public class NumbersService(IConfiguration configuration)
 {
-    private readonly string _connectionString;
-
-    public NumbersService(IConfiguration configuration)
-    {
-        _connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException(
-                "Falta 'DefaultConnection' en appsettings.json");
-    }
+    private readonly string _connectionString =
+        configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException(
+            "Falta 'DefaultConnection' en appsettings.json");
 
     private SqliteConnection CreateConnection() => new(_connectionString);
 
-  
     public async Task InitializeAsync()
     {
         const string sql = @"
@@ -32,19 +27,18 @@ public class NumbersService
         await connection.ExecuteAsync(sql);
     }
 
+    public async Task<NumberRecord> SaveAsync(NumberRecord record)
+    {
+        const string sql = @"
+            INSERT INTO NumberRecords (Fecha, Numero, Resultado)
+            VALUES (@Fecha, @Numero, @Resultado);
+            SELECT last_insert_rowid();";
 
-public async Task<NumberRecord> SaveAsync(NumberRecord record)
-{
-    const string sql = @"
-        INSERT INTO NumberRecords (Fecha, Numero, Resultado)
-        VALUES (@Fecha, @Numero, @Resultado);
-        SELECT last_insert_rowid();";
+        await using var connection = CreateConnection();
+        var nuevoId = await connection.ExecuteScalarAsync<long>(sql, record);
 
-    await using var connection = CreateConnection();
-    var nuevoId = await connection.ExecuteScalarAsync<long>(sql, record);
-
-    return record with { Id = (int)nuevoId };
-}
+        return record with { Id = (int)nuevoId };
+    }
 
     public async Task<bool> UpdateAsync(NumberRecord record)
     {
@@ -58,7 +52,6 @@ public async Task<NumberRecord> SaveAsync(NumberRecord record)
         return filasAfectadas > 0;
     }
 
-   
     public async Task<NumberRecord?> GetByIdAsync(int id)
     {
         const string sql = @"
